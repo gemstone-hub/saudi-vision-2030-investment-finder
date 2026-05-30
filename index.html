@@ -56,6 +56,7 @@
     padding: clamp(20px, 5vw, 56px) 18px clamp(40px, 8vw, 80px);
     position: relative;
     overflow-x: hidden;
+    line-height: 1.6;
   }
 
   /* ---------- Animated skyline background ---------- */
@@ -292,6 +293,7 @@
     transition: all 200ms var(--ease);
     border: 1px solid transparent;
     letter-spacing: 0.01em;
+    min-height: 44px;
   }
   .btn-back {
     background: transparent;
@@ -398,6 +400,7 @@
     padding: 16px 22px; border-radius: var(--radius-sm);
     text-decoration: none; box-shadow: var(--shadow-gold);
     transition: all 200ms var(--ease);
+    min-height: 44px;
   }
   .cta-btn:hover { background: linear-gradient(180deg, #eccb84, var(--gold-deep)); }
   .cta-btn:active { transform: translateY(1px); }
@@ -406,6 +409,7 @@
     color: var(--muted); font-family: inherit; font-size: 13.5px; font-weight: 500;
     display: inline-flex; align-items: center; gap: 7px;
     padding: 6px 10px; transition: color 200ms var(--ease);
+    min-height: 44px;
   }
   .restart:hover { color: var(--cream); }
   .restart svg { width: 14px; height: 14px; }
@@ -423,14 +427,85 @@
   /* hidden helper */
   .hidden { display: none !important; }
 
-  /* ---------- Mobile ---------- */
-  @media (max-width: 560px) {
-    .options { grid-template-columns: 1fr; }
-    .stats { grid-template-columns: 1fr 1fr; }
-    .opt { min-height: 56px; }
+  /* ---------- Responsive ---------- */
+
+  /* Mobile: up to 599px */
+  @media (max-width: 599px) {
+    body {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .masthead h1 {
+      font-size: 24px;
+      line-height: 1.3;
+    }
+    .masthead p {
+      font-size: 14px;
+    }
+    .card {
+      padding: 16px;
+    }
+    .options {
+      grid-template-columns: 1fr;
+    }
+    .opt {
+      min-height: 56px;
+      gap: 4px;
+    }
+    .dots {
+      justify-content: center;
+    }
+    .btn-back {
+      flex: 0 0 30%;
+    }
+    .pcard {
+      padding: 16px;
+    }
+    .pcard .pname {
+      font-size: 18px;
+    }
+    .stats {
+      grid-template-columns: 1fr 1fr;
+    }
+    .cta-btn {
+      min-height: 48px;
+      font-size: 16px;
+    }
   }
-  @media (max-width: 380px) {
-    .stats { grid-template-columns: 1fr; }
+
+  /* Tablet: 600px – 899px */
+  @media (min-width: 600px) and (max-width: 899px) {
+    .shell {
+      max-width: 680px;
+    }
+    .card {
+      padding: 24px;
+    }
+    .masthead h1 {
+      font-size: 32px;
+    }
+    .options {
+      grid-template-columns: 1fr 1fr;
+    }
+    .stats {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Desktop: 900px and above */
+  @media (min-width: 900px) {
+    .shell {
+      max-width: 720px;
+    }
+    .card {
+      padding: 32px;
+    }
+    .masthead h1 {
+      font-size: clamp(38px, 4vw, 42px);
+    }
+    .stats {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 </style>
 </head>
