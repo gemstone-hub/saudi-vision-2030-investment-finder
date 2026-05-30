@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Saudi Arabia Vision 2030 Investment Finder</title>
+<meta name="description" content="Discover which Saudi Arabia Vision 2030 Giga Project matches your investor profile. Five questions, instant personalised recommendation. NEOM, Red Sea, Diriyah, Qiddiya, or ROSHN." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:            #1A1208;
+    --surface:       #231A0C;
+    --surface-2:     #2C2010;
+    --surface-hover: #352716;
+    --border:        rgba(201, 168, 76, 0.16);
+    --border-soft:   rgba(240, 237, 232, 0.09);
+
+    --gold:          #C9A84C;
+    --gold-bright:   #E0C074;
+    --gold-deep:     #B08A3F;
+    --gold-tint:     rgba(201, 168, 76, 0.12);
+
+    --cream:         #F0EDE8;
+    --cream-soft:    #D8CFBD;
+    --muted:         #8B8680;
+
+    --radius:        16px;
+    --radius-sm:     11px;
+    --shadow:        0 24px 60px -24px rgba(0, 0, 0, 0.80);
+    --shadow-gold:   0 18px 48px -18px rgba(201, 168, 76, 0.30);
+    --ease:          cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    color: var(--cream);
+    background: var(--bg);
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(24px, 5vw, 56px) 18px clamp(48px, 8vw, 80px);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ---------- Background ---------- */
+  .bg-scene {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  }
+  .bg-glow {
+    position: absolute;
+    left: 0; right: 0; top: 0; height: 60%;
+    background: radial-gradient(120% 80% at 55% 0%,
+      rgba(201, 168, 76, 0.13) 0%,
+      rgba(201, 168, 76, 0) 60%);
+    animation: glowbreathe 10s ease-in-out infinite;
+  }
+  .bg-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(26, 18, 8, 0.08) 0%,
+      rgba(26, 18, 8, 0.38) 50%,
+      rgba(26, 18, 8, 0.88) 100%);
+  }
+  .bg-grain {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(240, 237, 232, 0.035) 1px, transparent 1.4px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(900px 600px at 50% 0%, #000 0%, transparent 80%);
+    -webkit-mask-image: radial-gradient(900px 600px at 50% 0%, #000 0%, transparent 80%);
+  }
+  @keyframes glowbreathe {
+    0%, 100% { opacity: 0.55; }
+    50%       { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bg-glow { animation: none; opacity: 0.8; }
+  }
+
+  /* ---------- Shell ---------- */
+  .shell {
+    width: 100%;
+    max-width: 640px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .crest {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 15px 7px 11px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(26, 18, 8, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    font-size: 11.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    font-weight: 500;
+  }
+  .crest svg { width: 16px; height: 16px; display: block; }
+  .masthead h1 {
+    font-family: "Tajawal", sans-serif;
+    font-weight: 700;
+    font-size: clamp(24px, 5.5vw, 36px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+  }
+  .masthead p {
+    max-width: 460px;
+    color: var(--cream-soft);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  /* ---------- Card ---------- */
+  .card {
+    background: linear-gradient(180deg,
+      rgba(35, 26, 12, 0.88) 0%,
+      rgba(26, 18, 8, 0.92) 100%);
+    backdrop-filter: blur(14px) saturate(110%);
+    -webkit-backdrop-filter: blur(14px) saturate(110%);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: clamp(22px, 4.4vw, 34px);
+    position: relative;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    left: 24px; right: 24px; top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.40), transparent);
+  }
+
+  /* ---------- Progress ---------- */
+  .progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+  }
+  .dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(201, 168, 76, 0.2);
+    transition: background-color 200ms ease;
+  }
+  .dot.filled {
+    background: #C9A84C;
+  }
+  .step-label {
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .step-label b { color: var(--gold-bright); font-weight: 600; }
+
+  /* ---------- Question ---------- */
+  .stage { position: relative; }
+  .qview {
+    transition: opacity 200ms ease;
+  }
+  .qview.leaving  { opacity: 0; }
+  .qview.entering { opacity: 0; }
+
+  .q-title {
+    font-family: "Tajawal", sans-serif;
+    font-size: clamp(20px, 4.4vw, 24px);
+    font-weight: 500;
+    line-height: 1.28;
+    color: var(--cream);
+    margin-bottom: 22px;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .opt {
+    appearance: none;
+    text-align: left;
+    min-height: 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    padding: 14px 40px 14px 16px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--border-soft);
+    background: var(--surface-2);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.35;
+    cursor: pointer;
+    transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+    position: relative;
+  }
+  .opt .opt-lead {
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--cream-soft);
+    transition: color 150ms ease;
+  }
+  .opt .opt-sub {
+    font-size: 12.5px;
+    color: var(--muted);
+    transition: color 150ms ease;
+  }
+  .opt:hover {
+    background: var(--surface-hover);
+    border-color: rgba(201, 168, 76, 0.25);
+  }
+  .opt.selected {
+    border: 1.5px solid var(--gold);
+    background: var(--gold-tint);
+  }
+  .opt.selected .opt-lead { color: var(--gold); }
+  .opt.selected .opt-sub  { color: var(--cream-soft); }
+
+  .opt .check {
+    position: absolute;
+    top: 50%; right: 12px;
+    transform: translateY(-50%) scale(0.6);
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    transition: opacity 200ms ease, transform 200ms ease, background 200ms ease, border-color 200ms ease;
+  }
+  .opt.selected .check {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .opt .check svg { width: 10px; height: 10px; display: block; }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 26px;
+  }
+  .btn {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 150ms ease;
+    border: 1px solid transparent;
+    min-height: 44px;
+  }
+  .btn-back {
+    background: transparent;
+    border-color: var(--border-soft);
+    color: var(--cream-soft);
+    padding: 12px 20px;
+  }
+  .btn-back:hover { border-color: rgba(240, 237, 232, 0.25); color: var(--cream); }
+  .btn-next {
+    flex: 1;
+    background: var(--gold);
+    color: #1A1208;
+    padding: 13px 22px;
+    box-shadow: var(--shadow-gold);
+  }
+  .btn-next:hover:not(:disabled) { opacity: 0.88; }
+  .btn-next:disabled {
+    background: var(--surface-2);
+    color: var(--muted);
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
+  /* ---------- Result ---------- */
+  .result {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    animation: fadeIn 400ms ease both;
+  }
+  .res-label {
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .pcard {
+    border-radius: var(--radius);
+    padding: clamp(20px, 4vw, 28px);
+    position: relative;
+  }
+  .pcard.best {
+    border: 2px solid var(--gold);
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    box-shadow: var(--shadow-gold);
+  }
+  .pcard.alt {
+    border: 0.5px solid var(--border-soft);
+    background: linear-gradient(180deg, rgba(35, 26, 12, 0.90), rgba(26, 18, 8, 0.92));
+  }
+  .pcard .badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 5px 11px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .pcard.best .badge { background: var(--gold); color: #1A1208; }
+  .pcard.alt  .badge { background: var(--surface-hover); color: var(--muted); }
+
+  .pcard .pname {
+    font-family: "Tajawal", sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.1;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+  }
+  .pcard .psub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 6px;
+  }
+  .pcard .pdesc {
+    color: var(--cream-soft);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 14px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .pill {
+    background: var(--surface-hover);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+  .pill .plabel {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 5px;
+  }
+  .pill .pval {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1.25;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 6px;
+  }
+  .cta-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gold);
+    color: #1A1208;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 16px 22px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    box-shadow: var(--shadow-gold);
+    transition: opacity 150ms ease;
+    min-height: 44px;
+  }
+  .cta-btn:hover { opacity: 0.88; }
+
+  .restart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 400;
+    padding: 8px 12px;
+    transition: color 150ms ease;
+    min-height: 44px;
+  }
+  .restart-btn:hover { color: var(--cream); }
+
+  /* ---------- Footer ---------- */
+  .footnote {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .hidden { display: none !important; }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 599px) {
+    .options {
+      grid-template-columns: 1fr;
+    }
+    .opt {
+      min-height: 56px;
+    }
+    .stats {
+      grid-template-columns: 1fr 1fr;
+    }
+    .pcard .pname {
+      font-size: 18px;
+    }
+    .dots {
+      justify-content: center;
+    }
+    .cta-btn,
+    .btn {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="bg-scene" aria-hidden="true">
+    <div class="bg-glow"></div>
+    <div class="bg-overlay"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <main class="shell">
+
+    <header class="masthead">
+      <span class="crest">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 7.7l5.4-.8L12 2z" fill="#E0C074"/>
+        </svg>
+        Vision 2030 · Giga Projects
+      </span>
+      <h1>Which Vision 2030 project fits your investor profile?</h1>
+      <p>Answer five questions and find your match across NEOM, Red Sea Global, Diriyah, Qiddiya, and ROSHN.</p>
+    </header>
+
+    <section class="card" aria-live="polite">
+
+      <!-- QUIZ -->
+      <div id="quiz">
+        <div class="progress">
+          <div class="dots" id="dots"></div>
+          <div class="step-label">Question <b id="stepNum">1</b> of 5</div>
+        </div>
+        <div class="stage">
+          <div class="qview" id="qview"></div>
+        </div>
+        <div class="nav">
+          <button class="btn btn-back hidden" id="backBtn" type="button">Back</button>
+          <button class="btn btn-next" id="nextBtn" type="button" disabled>Next</button>
+        </div>
+      </div>
+
+      <!-- RESULT -->
+      <div id="resultWrap" class="hidden"></div>
+
+    </section>
+
+    <p class="footnote">This tool provides general guidance based on publicly available information about Saudi Arabia's Vision 2030 Giga Projects. Results are indicative only and do not constitute financial or investment advice. Consult a qualified investment advisor before making any investment decisions. Project details, timelines, and investment structures may change. Data sourced from PIF, Knight Frank Saudi Arabia Giga Projects Report 2025, and official project sources.</p>
+
+  </main>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============================================================
+     DATA — Giga Projects  (PRD Section 3 / 7.2)
+  ============================================================ */
+  var projects = {
+    NEOM: {
+      name: "NEOM",
+      sub: "The Line, Trojena, Oxagon, Sindalah",
+      description: "A $500 billion futuristic megacity on the Red Sea coast with a special tax and regulatory framework for foreign investors. NEOM is designed for those who want to be part of the most ambitious development project in modern history. Sub-projects include The Line, Trojena (mountain ski resort), Oxagon (floating industrial city), and Sindalah (luxury island, operational since late 2024).",
+      min_investment: "SAR 500K+",
+      horizon: "7 to 20+ years",
+      risk: "High to visionary",
+      pipeline_display: "$500B total project value"
+    },
+    RedSea: {
+      name: "Red Sea Global",
+      sub: "Luxury tourism, 28,000 km coastline, 50+ hotels",
+      description: "The world's most ambitious luxury tourism destination spanning 28,000 km of pristine Red Sea coastline. Phase 1 resorts are already open and welcoming guests. Investors benefit from a proven hospitality model, strong international brand partnerships, and Saudi Arabia's rapidly growing inbound tourism market targeting 150 million visits annually by 2030.",
+      min_investment: "SAR 2M+",
+      horizon: "3 to 10 years",
+      risk: "Moderate",
+      pipeline_display: "$14B+ awarded, Phase 1 operational"
+    },
+    Diriyah: {
+      name: "Diriyah Gate",
+      sub: "Historic Riyadh, culture, heritage and F&B",
+      description: "Saudi Arabia's first capital reimagined as a world-class cultural and heritage destination on the edge of Riyadh. With $14.5 billion commissioned and $45.6 billion in pipeline, Diriyah is one of the most advanced Giga Projects in delivery progress. The Bujairi Terrace district has been operational since 2022. Combining Najdi architectural heritage with international hospitality brands across F&B, culture, and accommodation.",
+      min_investment: "SAR 500K to SAR 10M+",
+      horizon: "3 to 10 years",
+      risk: "Low to moderate",
+      pipeline_display: "$45.6B pipeline"
+    },
+    Qiddiya: {
+      name: "Qiddiya",
+      sub: "Entertainment city near Riyadh, sports and culture",
+      description: "The entertainment capital of Saudi Arabia, located near Riyadh. Qiddiya is building 4,000 residential units by 2025 and 11,000 by 2030, expected to contribute $4.53 billion to Saudi GDP and create 57,000 new jobs. Home to the world's first Dragon Ball theme park and a major Formula 1 racing circuit. The project for investors who believe in the lifestyle transformation of the Kingdom.",
+      min_investment: "SAR 300K to SAR 5M",
+      horizon: "3 to 8 years",
+      risk: "Moderate",
+      pipeline_display: "$4.53B GDP contribution by 2030"
+    },
+    ROSHN: {
+      name: "ROSHN",
+      sub: "400,000+ homes by 2030, nationwide communities",
+      description: "Saudi Arabia's national residential developer and the most accessible entry point into Vision 2030 real estate. ROSHN is targeting 70% home ownership across the Kingdom, already delivering communities at scale including Sedra and Alarous. Foreign developers are actively invited to participate. The lowest-risk Giga Project with the clearest residential return model and the shortest path to delivered product.",
+      min_investment: "SAR 200K to SAR 3M",
+      horizon: "1 to 7 years",
+      risk: "Low to moderate",
+      pipeline_display: "400,000+ homes by 2030"
+    }
+  };
+
+  /* ============================================================
+     DATA — Questions  (PRD Section 2)
+  ============================================================ */
+  var questions = [
+    {
+      id: "horizon",
+      title: "What is your investment horizon?",
+      options: [
+        { value: "short",     label: "1 to 3 years — I want returns quickly" },
+        { value: "medium",    label: "3 to 7 years — balanced approach" },
+        { value: "long",      label: "7 to 15 years — I am building long-term wealth" },
+        { value: "very_long", label: "15+ years — generational investment" }
+      ]
+    },
+    {
+      id: "size",
+      title: "What is your investment budget?",
+      options: [
+        { value: "small",  label: "Under SAR 500,000" },
+        { value: "mid",    label: "SAR 500,000 to SAR 2 million" },
+        { value: "large",  label: "SAR 2 million to SAR 10 million" },
+        { value: "xlarge", label: "Over SAR 10 million" }
+      ]
+    },
+    {
+      id: "type",
+      title: "What type of return matters most to you?",
+      options: [
+        { value: "yield",   label: "Rental income — I want steady cash flow" },
+        { value: "capital", label: "Capital appreciation — I want the asset to grow" },
+        { value: "both",    label: "Both yield and capital growth" },
+        { value: "vision",  label: "Strategic positioning in Vision 2030" }
+      ]
+    },
+    {
+      id: "risk",
+      title: "How do you think about risk?",
+      options: [
+        { value: "low",    label: "Conservative — I want proven stable investments" },
+        { value: "medium", label: "Moderate — balanced risk and reward" },
+        { value: "high",   label: "Growth-oriented — I can accept volatility for higher returns" },
+        { value: "vhigh",  label: "Visionary — I want to be part of something historic" }
+      ]
+    },
+    {
+      id: "sector",
+      title: "Which sector excites you most?",
+      options: [
+        { value: "residential",   label: "Residential communities and housing" },
+        { value: "tourism",       label: "Luxury tourism and hospitality" },
+        { value: "entertainment", label: "Entertainment, sports and culture" },
+        { value: "future",        label: "Futuristic cities and deep technology" }
+      ]
+    }
+  ];
+
+  var CTA_URL = "https://cal.com/enwere-christian-qip6n0/30min";
+
+  /* ============================================================
+     SCORING  (PRD Section 4.1 — exact table)
+  ============================================================ */
+  function score(ans) {
+    var s = { NEOM: 0, RedSea: 0, Diriyah: 0, Qiddiya: 0, ROSHN: 0 };
+
+    var table = {
+      horizon: {
+        very_long: { NEOM: 3 },
+        long:      { NEOM: 2, RedSea: 1 },
+        medium:    { RedSea: 2, Diriyah: 2, Qiddiya: 2 },
+        short:     { Qiddiya: 1, ROSHN: 3 }
+      },
+      size: {
+        xlarge: { NEOM: 3 },
+        large:  { NEOM: 1, RedSea: 2, Diriyah: 2 },
+        mid:    { Diriyah: 2, Qiddiya: 2, ROSHN: 2 },
+        small:  { Qiddiya: 1, ROSHN: 3 }
+      },
+      type: {
+        vision:  { NEOM: 3, Diriyah: 1 },
+        capital: { NEOM: 2, RedSea: 1 },
+        both:    { RedSea: 2, Diriyah: 2 },
+        yield:   { Qiddiya: 2, ROSHN: 2 }
+      },
+      risk: {
+        vhigh:  { NEOM: 3 },
+        high:   { NEOM: 2, RedSea: 1 },
+        medium: { RedSea: 2, Diriyah: 2, Qiddiya: 2 },
+        low:    { Diriyah: 3, ROSHN: 3 }
+      },
+      sector: {
+        future:        { NEOM: 3, Qiddiya: 1 },
+        tourism:       { RedSea: 3, Diriyah: 2 },
+        entertainment: { NEOM: 1, Qiddiya: 3 },
+        residential:   { Qiddiya: 1, ROSHN: 3 }
+      }
+    };
+
+    for (var q in table) {
+      if (!table.hasOwnProperty(q)) continue;
+      var val = ans[q];
+      if (!val) continue;
+      var row = table[q][val];
+      if (!row) continue;
+      for (var proj in row) {
+        if (row.hasOwnProperty(proj)) s[proj] += row[proj];
+      }
+    }
+
+    return s;
+  }
+
+  /* Rank projects by score desc. Tiebreaker: sector alignment (PRD 4.2). */
+  var SECTOR_MAP = {
+    NEOM: "future", RedSea: "tourism", Diriyah: "tourism",
+    Qiddiya: "entertainment", ROSHN: "residential"
+  };
+  var PROJ_ORDER = ["NEOM", "RedSea", "Diriyah", "Qiddiya", "ROSHN"];
+
+  function rank(ans) {
+    var s = score(ans);
+    var arr = PROJ_ORDER.map(function (k) { return { key: k, sc: s[k] }; });
+    arr.sort(function (a, b) {
+      if (b.sc !== a.sc) return b.sc - a.sc;
+      var aM = (SECTOR_MAP[a.key] === ans.sector) ? 1 : 0;
+      var bM = (SECTOR_MAP[b.key] === ans.sector) ? 1 : 0;
+      if (bM !== aM) return bM - aM;
+      return PROJ_ORDER.indexOf(a.key) - PROJ_ORDER.indexOf(b.key);
+    });
+    return arr;
+  }
+
+  /* ============================================================
+     STATE
+  ============================================================ */
+  var current = 0;
+  var answers = {};
+
+  /* ============================================================
+     ELEMENTS
+  ============================================================ */
+  var dotsEl     = document.getElementById("dots");
+  var stepNumEl  = document.getElementById("stepNum");
+  var qviewEl    = document.getElementById("qview");
+  var backBtn    = document.getElementById("backBtn");
+  var nextBtn    = document.getElementById("nextBtn");
+  var quizEl     = document.getElementById("quiz");
+  var resultWrap = document.getElementById("resultWrap");
+
+  /* Build 5 progress dots */
+  for (var i = 0; i < questions.length; i++) {
+    var d = document.createElement("span");
+    d.className = "dot";
+    dotsEl.appendChild(d);
+  }
+  var dotEls = dotsEl.querySelectorAll(".dot");
+
+  /* ============================================================
+     RENDER QUESTION
+  ============================================================ */
+  function checkSVG() {
+    return '<span class="check" aria-hidden="true">'
+      + '<svg viewBox="0 0 12 12" fill="none">'
+      + '<path d="M2.5 6.3l2.2 2.2 4.8-5" stroke="#1A1208" stroke-width="2"'
+      + ' stroke-linecap="round" stroke-linejoin="round"/>'
+      + '</svg></span>';
+  }
+
+  function renderQuestion() {
+    var q   = questions[current];
+    var qid = q.id;
+    var html = '<h2 class="q-title">' + q.title + '</h2>';
+    html += '<div class="options" role="listbox" aria-label="' + q.title + '">';
+
+    for (var i = 0; i < q.options.length; i++) {
+      var o     = q.options[i];
+      var isSel = answers[qid] === o.value;
+      var parts = o.label.split(' — ');
+      html += '<button class="opt' + (isSel ? ' selected' : '') + '"'
+            + ' type="button" data-val="' + o.value + '"'
+            + ' role="option" aria-selected="' + isSel + '">';
+      html += checkSVG();
+      if (parts.length > 1) {
+        html += '<span class="opt-lead">' + parts[0] + '</span>';
+        html += '<span class="opt-sub">'  + parts[1] + '</span>';
+      } else {
+        html += '<span class="opt-lead">' + o.label + '</span>';
+      }
+      html += '</button>';
+    }
+    html += '</div>';
+
+    qviewEl.innerHTML = html;
+
+    /* Wire clicks */
+    var opts = qviewEl.querySelectorAll(".opt");
+    opts.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var val = btn.getAttribute("data-val");
+        answers[qid] = val;
+        opts.forEach(function (b) {
+          b.classList.remove("selected");
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add("selected");
+        btn.setAttribute("aria-selected", "true");
+        updateNav();
+      });
+    });
+
+    updateDots();
+    updateNav();
+  }
+
+  function updateDots() {
+    dotEls.forEach(function (dot, i) {
+      dot.classList.toggle("filled", i <= current);
+    });
+    stepNumEl.textContent = current + 1;
+    dotsEl.setAttribute("aria-label", "Question " + (current + 1) + " of " + questions.length);
+  }
+
+  function updateNav() {
+    backBtn.classList.toggle("hidden", current === 0);
+    nextBtn.textContent = (current === questions.length - 1) ? "See my match" : "Next";
+    nextBtn.disabled    = !answers[questions[current].id];
+  }
+
+  function transitionTo(nextIndex) {
+    qviewEl.classList.add("leaving");
+    setTimeout(function () {
+      current = nextIndex;
+      qviewEl.classList.remove("leaving");
+      qviewEl.classList.add("entering");
+      renderQuestion();
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          qviewEl.classList.remove("entering");
+        });
+      });
+    }, 200);
+  }
+
+  /* ============================================================
+     RESULT
+  ============================================================ */
+  function statPill(label, value) {
+    return '<div class="pill">'
+      + '<div class="plabel">' + label + '</div>'
+      + '<div class="pval">'   + value + '</div>'
+      + '</div>';
+  }
+
+  function renderResult() {
+    var ranked = rank(answers);
+    var best   = projects[ranked[0].key];
+    var alt    = projects[ranked[1].key];
+
+    var html = '<div class="result">';
+
+    /* Header line */
+    html += '<p class="res-label">Based on your profile</p>';
+
+    /* Best match card */
+    html += '<div class="pcard best">';
+    html += '<span class="badge">Best match</span>';
+    html += '<div class="pname">' + best.name + '</div>';
+    html += '<div class="psub">'  + best.sub  + '</div>';
+    html += '<p class="pdesc">'   + best.description + '</p>';
+    html += '<div class="stats">';
+    html += statPill("Minimum investment", best.min_investment);
+    html += statPill("Ideal horizon",      best.horizon);
+    html += statPill("Risk profile",       best.risk);
+    html += statPill("Pipeline",           best.pipeline_display);
+    html += '</div>';
+    html += '</div>';
+
+    /* Also worth exploring card */
+    html += '<div class="pcard alt">';
+    html += '<span class="badge">Also worth exploring</span>';
+    html += '<div class="pname">' + alt.name + '</div>';
+    html += '<div class="psub">'  + alt.sub  + '</div>';
+    html += '<p class="pdesc">'   + alt.description + '</p>';
+    html += '</div>';
+
+    /* CTA */
+    html += '<div class="cta-wrap">';
+    html += '<a class="cta-btn" href="' + CTA_URL + '" target="_blank" rel="noopener noreferrer">'
+          + 'Book a free 20-minute call ↗</a>';
+    html += '<button class="restart-btn" id="restartBtn" type="button">Start over</button>';
+    html += '</div>';
+
+    html += '</div>';
+
+    resultWrap.innerHTML = html;
+    document.getElementById("restartBtn").addEventListener("click", restart);
+  }
+
+  function showResult() {
+    quizEl.classList.add("hidden");
+    resultWrap.classList.remove("hidden");
+    renderResult();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function restart() {
+    answers    = {};
+    current    = 0;
+    resultWrap.classList.add("hidden");
+    resultWrap.innerHTML = "";
+    quizEl.classList.remove("hidden");
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /* ============================================================
+     NAV EVENTS
+  ============================================================ */
+  nextBtn.addEventListener("click", function () {
+    if (!answers[questions[current].id]) return;
+    if (current === questions.length - 1) {
+      showResult();
+    } else {
+      transitionTo(current + 1);
+    }
+  });
+
+  backBtn.addEventListener("click", function () {
+    if (current > 0) transitionTo(current - 1);
+  });
+
+  /* ============================================================
+     INIT
+  ============================================================ */
+  renderQuestion();
+
+})();
+</script>
+</body>
+</html>
